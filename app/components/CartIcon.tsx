@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { ShoppingCart } from 'lucide-react'
-import { useCart } from '../contexts/CartContext'
-import { Button } from "@/components/ui/button"
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "../contexts/CartContext";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -12,24 +12,24 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 
 export default function CartIcon() {
-  const { cart, removeFromCart, getCartTotal } = useCart()
-  const [isOpen, setIsOpen] = useState(false)
-  const router = useRouter()
+  const { cart, removeFromCart, getCartTotal } = useCart();
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0)
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleCheckout = () => {
-    setIsOpen(false)
-    router.push('/checkout')
-  }
+    setIsOpen(false);
+    router.push("/checkout");
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button variant="outline" size="sm" className="relative h-9 w-9 p-0">
           <ShoppingCart className="h-4 w-4" />
           {totalItems > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -47,10 +47,21 @@ export default function CartIcon() {
         </SheetHeader>
         <div className="mt-4">
           {cart.map((item) => (
-            <div key={item.id} className="flex justify-between items-center mb-2">
-              <span>{item.name} (x{item.quantity})</span>
+            <div
+              key={item.id}
+              className="flex justify-between items-center mb-2"
+            >
+              <span>
+                {item.name} (x{item.quantity})
+              </span>
               <span>${(item.price * item.quantity).toFixed(2)}</span>
-              <Button variant="destructive" size="sm" onClick={() => removeFromCart(item.id)}>Remove</Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => removeFromCart(item.id)}
+              >
+                Remove
+              </Button>
             </div>
           ))}
         </div>
@@ -62,6 +73,5 @@ export default function CartIcon() {
         </Button>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
-
